@@ -7,8 +7,11 @@
  * @returns {string} - The formatted string.
  */
 function capitalizeWords(input) {
-    return input.replace(/\b\w/g, char => char.toUpperCase());
+  return input
+    .toLowerCase()
+    .replace(/\b\w/g, (match) => match.toUpperCase());
 }
+
 
 /**
  * Filters active users from the array.
@@ -16,9 +19,8 @@ function capitalizeWords(input) {
  * @returns {Array} - An array of active user objects.
  */
 function filterActiveUsers(users) {
-    return users.filter(user => user.isActive);
+  return users.filter(user => user.active === true);
 }
-
 /**
  * Logs an action performed by a user with a timestamp.
  * @param {string} action - The action performed.
@@ -26,8 +28,16 @@ function filterActiveUsers(users) {
  * @returns {string} - The log message.
  */
 function logAction(action, username) {
+    // Validation Logic Added
+    if (!action || !action.trim() || !username || !username.trim()) {
+        return 'Error: Invalid Input';
+    }
+    // Trim whitespace 
+    const sanitizedAction = action.trim();
+    const sanitizedUsername = username.trim();
+
     const timestamp = new Date().toISOString();
-    return `User ${username} performed ${action} at ${timestamp}`;
+    return `User ${sanitizedUsername} performed ${sanitizedAction} at ${timestamp}`;
 }
 
 module.exports = { capitalizeWords, filterActiveUsers, logAction };
